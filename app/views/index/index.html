@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Identify-DEV</title>
+	<style>
+		.alert-fixed {position: fixed;
+    z-index: 9999;
+    width: 100%;}
+	</style>
+</head>
+<body class="bg-light">
+<div class="card">
+	<div class="card-body text-center bg-light">
+		Baidu Cloud Identify-DEV
+	</div>
+</div>
+<div class="container mt-4">
+    <form id="material-form">
+        <div class="form-row align-items-center mt-3">
+            <div class="col-3">
+                <label>材料类型</label>
+            </div>
+            <div class="col-8">
+                <select name="material" class="custom-select">
+                    <option value="1" selected>通用文字</option>
+                    <option value="2">身份证件</option>
+                    <option value="3">银行卡号</option>
+                    <option value="4">驾驶证件</option>
+                    <option value="5">行驶证件</option>
+                    <option value="6">车牌识别</option>
+                    <option value="7">营业执照</option>
+                    <option value="8">通识票据</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="opts-row form-row align-items-center mt-3 material-1">
+            <div class="col-3">
+                <label>识别语言</label>
+            </div>
+            <div class="col-8">
+                <select name="language_type" class="custom-select">
+                    <option value="CHN_ENG" selected>中英文</option>
+                    <option value="ENG">英文</option>
+                    <option value="POR">葡萄牙语</option>
+                    <option value="FRE">法语</option>
+                    <option value="GER">德语</option>
+                    <option value="ITA">意大利语</option>
+                    <option value="SPA">西班牙语</option>
+                    <option value="RUS">俄语</option>
+                    <option value="JAP">日语</option>
+                    <option value="KOR">韩语</option>
+                </select>
+            </div>
+        </div>
+		<div class="opts-row form-row mt-3 material-2">
+            <div class="col-3">
+                <label>证件正反</label>
+            </div>
+            <div class="col-8">
+                <div class="custom-control custom-radio custom-control-inline">
+				  <input type="radio" id="cardSide1" name="id_card_side" class="custom-control-input" value="front" checked>
+				  <label class="custom-control-label" for="cardSide1">正面</label>
+				</div>
+				<div class="custom-control custom-radio custom-control-inline">
+				  <input type="radio" id="cardSide2" name="id_card_side" class="custom-control-input" value="back">
+				  <label class="custom-control-label" for="cardSide2">背面</label>
+				</div>
+            </div>
+        </div>
+		
+		<div class="form-row align-items-center mt-3">
+            <div class="col-3">
+                <label>上传材料</label>
+            </div>
+            <div class="col-8">
+                <div class="custom-file">
+				  <input name="material" type="file" class="custom-file-input" id="material" onchange="showPreview(this, 'preView')">
+				  <label class="custom-file-label" for="material" id="materialLable" style="overflow: hidden;">Choose file</label>
+				</div>
+            </div>
+        </div>
+		<div class="form-row align-items-center mt-3 d-none">
+            <div class="col-3">
+                <label></label>
+            </div>
+            <div class="col-8">
+                <img id="preView" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1690b729fad%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1690b729fad%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.4296875%22%20y%3D%22104.5%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" class="rounded mx-auto" alt="..." style="max-width:200px;max-height:200px">
+            </div>
+        </div>
+		
+		<div class="opts-row custom-control custom-checkbox mt-3 material-1">
+		  <input name="detect_language" type="checkbox" class="custom-control-input" id="checkLanguage" value="0">
+		  <label class="custom-control-label" for="checkLanguage">是否检测语言</label>
+		</div>
+		
+		<div class="opts-row custom-control custom-checkbox mt-3 material-5 material-8" value="0">
+		  <input name="accuracy" type="checkbox" class="custom-control-input" id="checkAccuracy">
+		  <label class="custom-control-label" for="checkAccuracy">使用快速服务</label>
+		</div>
+		
+		<div class="opts-row custom-control custom-checkbox mt-3 material-6">
+		  <input name="multi_detect" type="checkbox" class="custom-control-input" id="checkMultiDetect" value="0">
+		  <label class="custom-control-label" for="checkMultiDetect">是否检测多张车牌</label>
+		</div>
+		
+		<div class="opts-row custom-control custom-checkbox mt-3 material-1 material-2 material-4 material-5 material-8">
+		  <input name="detect_direction" type="checkbox" class="custom-control-input" id="checkDirection" value="0">
+		  <label class="custom-control-label" for="checkDirection">是否检测图像朝向</label>
+		</div>
+		
+		<div class="opts-row custom-control custom-checkbox mt-3 material-2">
+		  <input name="detect_risk" type="checkbox" class="custom-control-input" id="checkRisk" value="0">
+		  <label class="custom-control-label" for="checkRisk">是否开启身份证风险类型</label>
+		</div>
+		
+		<button id="submitBtn" type="button" class="btn btn-primary btn-lg btn-block mt-4 btn-sm">提交检测</button>
+    </form>
+</div>
+
+<div class="modal fade" id="textModal" tabindex="-1" role="dialog" aria-labelledby="textModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="textModalLabel">图片识别结果通知</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="lead">
+		  
+		</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary copy-btn" data-clipboard-action="copy" data-clipboard-target=".lead">一键复制</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+
+<script>
+function showPreview(source, imgId) {
+	var file = source.files[0];
+	document.getElementById('materialLable').innerHTML = file.name;
+	if(window.FileReader) {
+	  var fr = new FileReader();
+	  fr.onloadend = function(e) {
+		document.getElementById(imgId).src = e.target.result;
+		document.getElementById(imgId).parentNode.parentNode.classList.remove("d-none");
+		document.getElementById(imgId).parentNode.parentNode.classList.add("d-flex");
+	  }
+	  fr.readAsDataURL(file);
+	}
+}
+$(document).ready(function() {
+
+	function materialOptsFilter() {
+		$('.opts-row').hide();
+		$('input[type=checkbox]').prop('checked', false);
+		document.getElementById('material').value = '';
+		document.getElementById('materialLable').innerHTML = 'Choose file';
+		document.getElementById('preView').parentNode.parentNode.classList.remove("d-flex");
+		document.getElementById('preView').parentNode.parentNode.classList.add("d-none");
+		$('.material-'+$('select[name=material]').val()).each(function(idx,dom) {
+			setTimeout(function() {
+				$(dom).fadeIn();
+			}, .5e3);
+		});
+		$('input[type=checkbox]').on('click', function() {
+			$(this).val($(this).prop('checked'));
+		});
+	}
+	materialOptsFilter();
+	$('select[name=material]').on('change', materialOptsFilter);
+	
+	$("#submitBtn").on('click', function() {
+		$('.alert-primary').alert();
+		var formData = new FormData(document.querySelector('#material-form'));
+		$.ajax({
+			method: 'post',
+			url:'/index/uploadMaterial',
+			data: formData,
+			dataType: 'json',
+			contentType:false,
+			processData:false,
+			success: function(res) {
+				if (+res.code === 200) {
+					$('#textModal').modal('show');
+					$('#textModal').find('.modal-body p').html(res.data);
+					$('#textModal').find('.modal-title').html($('select[name=material] option:selected').text()+'-识别结果通知');
+				} else {
+					$('body').prepend('<div class="alert alert-danger alert-dismissible fade show alert-fixed" role="alert"><div class="alert-body">'+res.msg+'</div><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+					setTimeout(function() {
+						$('.alert').alert('close');
+					}, 3e3);
+				}
+			}
+		});
+	});
+	
+	// 实例化Clipboard插件
+	var clipboard = new ClipboardJS('.copy-btn');
+
+	clipboard.on('success', function(e) {
+		$('body').prepend('<div class="alert alert-info alert-dismissible fade show alert-fixed" role="alert"><div class="alert-body">已复制好，可贴粘</div><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+		setTimeout(function() {
+			$('.alert').alert('close');
+		}, 3e3);
+		// 清除选中区域
+		e.clearSelection();
+	});
+
+	clipboard.on('error', function(e) {
+		$('body').prepend('<div class="alert alert-danger alert-dismissible fade show alert-fixed" role="alert"><div class="alert-body">复制失败，请手动复制</div><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+		setTimeout(function() {
+			$('.alert').alert('close');
+		}, 3e3);
+	});
+});
+</script>
+</body>
+</html>
