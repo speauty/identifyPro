@@ -121,7 +121,7 @@
 		  <label class="custom-control-label" for="checkRisk">是否开启身份证风险类型</label>
 		</div>
 		
-		<button id="submitBtn" type="button" class="btn btn-primary btn-lg btn-block mt-4 btn-sm">提交检测</button>
+		<button id="submitBtn" type="button" class="btn btn-primary btn-lg btn-block mt-4 btn-sm" aria-pressed="true">提交检测</button>
     </form>
 </div>
 
@@ -158,8 +158,8 @@
 <script>
 function showPreview(source, imgId) {
 	var file = source.files[0];
-	document.getElementById('materialLable').innerHTML = file.name;
-	if(window.FileReader) {
+	if(window.FileReader && file) {
+	  document.getElementById('materialLable').innerHTML = file.name;
 	  var fr = new FileReader();
 	  fr.onloadend = function(e) {
 		document.getElementById(imgId).src = e.target.result;
@@ -191,8 +191,11 @@ $(document).ready(function() {
 	$('select[name=material]').on('change', materialOptsFilter);
 	
 	$("#submitBtn").on('click', function() {
-		$('.alert-primary').alert();
+		var that = this;
+		$(that).attr('disabled', true);
+		$(that).html('正在识别中...');
 		var formData = new FormData(document.querySelector('#material-form'));
+		
 		$.ajax({
 			method: 'post',
 			url:'/index/uploadMaterial',
@@ -201,6 +204,8 @@ $(document).ready(function() {
 			contentType:false,
 			processData:false,
 			success: function(res) {
+				$(that).html('提交检测');
+				$(that).removeAttr('disabled');
 				if (+res.code === 200) {
 					$('#textModal').modal('show');
 					$('#textModal').find('.modal-body p').html(res.data);
@@ -210,6 +215,7 @@ $(document).ready(function() {
 					setTimeout(function() {
 						$('.alert').alert('close');
 					}, 3e3);
+					
 				}
 			}
 		});
